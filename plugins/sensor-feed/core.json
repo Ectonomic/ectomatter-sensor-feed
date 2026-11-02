@@ -1,0 +1,28 @@
+// The Sensor Feed plugin: every sensor on this computer (temperatures, loads,
+// clocks, fans, power and the rest), listed and named as people say them, and
+// read for whatever shows them (the keyboard's screen, the Sensor Feed box
+// in Settings). It reads only what's named below, read only, through
+// Ectomatter, and NVIDIA cards through NVIDIA's driver, which Ectomatter loads
+// itself (docs/core-protocol.md, section 11). Linux's own files, so Linux only.
+{
+  "id": "sensor-feed",
+  "kind": "plugin",
+  "name": "Sensor Feed",
+  "version": "1.0.0",
+  "protocol": 4,          // the core protocol it speaks
+  "ectomatter": "0.1.0",  // the oldest Ectomatter it runs on
+  "module": "core.wasm",  // built from module/ by tools/build-plugins.sh
+  "license": "GPL-3.0-only",
+  "description": "Your computer’s temperatures, loads and fans, for screens that show them.",
+  "glyph": "glyph.svg",   // Phosphor's gauge, Light (phosphoricons.com, MIT)
+  "systems": ["linux"],
+  "adds": ["readings"],
+  "uses": [
+    { "read": "/sys" },
+    { "read": "/proc/stat" },
+    { "read": "/proc/meminfo" },
+    { "read": "/proc/cpuinfo" },
+    { "read": "/usr/share/hwdata/pci.ids" },
+    "nvidia"
+  ]
+}
