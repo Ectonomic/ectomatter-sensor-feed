@@ -2,7 +2,7 @@
 
 Your computer’s temperatures, loads and fans, for screens that show them.
 
-This is a plugin for Ectomatter, one app for the devices on your desk. A plugin brings something into Ectomatter that isn't a device, such as another program, the games on the computer or the weather. It runs inside Ectomatter as a WebAssembly module and reaches only what its manifest (`plugins/sensor-feed/core.json`) names.
+This is a plugin for [Ectomatter](https://github.com/Ectonomic/Ectomatter), one app for the devices on your desk. A plugin brings something into Ectomatter that isn't a device, such as another program, the games on the computer or the weather. It runs inside Ectomatter as a WebAssembly module and reaches only what its manifest (`core.json`) names.
 
 ## Adding it
 
@@ -10,20 +10,19 @@ In Ectomatter's Settings, under Plugins, choose **Add a plugin**, then pick Sens
 
 ## Building it
 
-The folders are laid out as in Ectomatter's own repository. To build the module:
+The plugin is built inside Ectomatter's repository, which links this one at `plugins/sensor-feed` (a Git submodule) and holds what every package is built from: the library of the core protocol's names (`crates/ectomatter-protocol`) and the interface between a module and Ectomatter (`wit/core.wit`). The plugin reads the computer's sensors with Ectomatter's library for them, `crates/ectomatter-sensors`, which the app's settings for them use too.
 
 ```sh
+git clone --recurse-submodules https://github.com/Ectonomic/Ectomatter
+cd Ectomatter
 rustup target add wasm32-wasip2
 tools/build-module.sh plugins/sensor-feed/module/Cargo.toml plugins/sensor-feed/core.wasm
 ```
 
-Each release's module is built from its tag this way, with Rust 1.98.1.
+Ectonomic builds its releases with Rust 1.98.1.
 
-- `plugins/sensor-feed/`: the plugin itself: its manifest, the files it carries, and its module's source (`module/`)
-- `crates/`: the libraries the module is built from
-  - `ectomatter-protocol`: the shared names and actions of Ectomatter's core protocol
-  - `ectomatter-sensors`: every sensor on a Linux computer, named as people say them: the Sensor Feed plugin's library
-- `wit/core.wit`: the interface between the module and Ectomatter
+- `core.json`, `glyph.svg`: the plugin as Ectomatter installs it, its manifest and the files it carries
+- `module/`: the module's source
 
 ## License
 
